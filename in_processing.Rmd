@@ -1,0 +1,40 @@
+---
+title: "in_processing"
+author: "Beth Davis"
+date: "2/4/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+To be added (hopefully) to Workflows
+
+```{r}
+## Check all files were downloaded 
+```{r}
+## File path to data used in this script
+data_path <- paste0(getwd(), "/data/skillshare")
+# Count files inside the folder to make sure the number of files downloaded is what is expected.
+length(list.files(data_path))
+
+```
+
+
+```{r}
+## List with all csv files in raw data
+all_csv <- tibble(list.files(data_path, pattern = ".csv")) %>% 
+  rename(file_name = 1) %>% 
+  mutate(path = paste0(data_path, "/", file_name),
+         n = 1:n(),
+         type = "skillshare") %>% 
+  unite(obj_name, type, n, sep = "_", remove = FALSE)
+
+## function to read csv and clean names as we read the file
+read_csv_clean <- function(dataset){
+  read_csv(dataset) %>% 
+    clean_names()}
+```
+
+```
