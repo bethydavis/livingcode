@@ -1,0 +1,205 @@
+---
+title: "SQLNotes"
+authr: "Beth Davis"
+repository: "livingcode records"
+date_created: "1/24/2022"
+utput: html_dcument
+---
+
+```{r setup, include=FALSE}
+knitr::pts_chunk$set(echo = TRUE)
+```
+
+# Sources: 
+Moss Landing Marine Labs Course - BIO 595 - Data Analysis Techniques
+ProgrammingWithMosh Video - MySQL Tutorial for Beginners
+University of Maine Course - SIE 557 - Database Management
+
+
+# What is SQL?
+SQL stands for Structured Query Language and is used to write and query databases using Database Management Systems (DBMS)
+
+
+```{sql}
+```
+
+## Basic Design and Tips
+
+It is best to eliminate redundancy in databases by keeping one field per information time, one atomic value per ell, and one table per class of information. Do not store copies of the same information in multiple tables, instead use Keys
+
+Primary Keys are a unique field(s) in each table which is used to identify each record in that table (example: a table of student information with a column for studentIDNumber)
+
+Foreign Keys are fields in tables which identify or link that table to a different table in a database. Foreign Keys can also be Primary Keys (example: if you want to query the student information records against a table of student majors, both could have a column for studentIDNumber which would be both Primary and Foreign key)
+
+Keys can help keep your database tidy and organized
+
+For best practice, have each set of related data be in its own table (student ID information in one, student majors in another), with each table having at least one Primary Key
+If a column of data doesn't relate to the Primary Key in that table, it should be placed in a different table.
+
+## MySQL Workbench Overview
+
+
+
+	Administratin Tab is used fr administrative tasks and dealing with the server, imprting and exprting data
+	Schema Tab is used t shw the databases currently held in the server
+	Remember t refresh the Schema tab t see any added database, as they wn't update autmatically
+	sys is MySQL's database fr running
+	utput Windw shws all actins perfrmed and any relevant warnings
+	Each database drpdwn list has bjects stred in it - Tables, Views, Stred Functins, etc
+	Tables:
+	The third icn (calendar with thunder) prduces a table f all data held in that specific table
+	Use:
+	SQL is nt case-sensitive, but it is best practice t All CAPS key wrds
+	Databases can be selected by manually duble-clicking them in the Schema tab r by typing "USE <database name>
+	Data can be edited directly int the table shwn in the riginal table preview - use 'Apply' r 'Revert' buttn after change
+	
+	
+	cmments ut a line
+	The rder f clauses is very imprtant
+	CREATE
+	USE
+	SELECT
+	FRM
+	JIN
+	WHERE
+	RDER BY
+	Line spaces technically dn't matter in SQL but it's gd practice and makes it lk prettier
+	whenever there are multiple SQL statements, yu need t terminate the statement with a semicln
+	ctrl+shift+enter runs the cde
+	SELECT - selects data. Use by "SELECT <clumns wanted>"
+	Can use "SELECT *" t select all clumns
+	The rder that the clumns wanted are written will change the rder that the clumns appear
+	Can use arithmetic expressins next t clumn name t d a bit f math
+	pints + 10
+	If using multiple expressins, parantheses can be used t change and/r clarify the rder f peratins
+	(pints +10) * 100
+	Clumns can be renamed with AS t give it an alias
+	pints +10 AS discunt_factr
+	Separate wrds can be used as clumn names, but use either ' ' arund the name r " "
+	When duplicate data is present, can use the DISTINCT keywrd t remve duplicates frm the clumn and nly shw each unique value ne
+	SELECT DISTINCT state
+	FRM - tells SQL which table yu want t get the data frm
+	WHERE - filters results
+	WHERE custmer_id = 1 - will nly shw the data where custmer_id is equal t 1
+	Can use cnditinal/mathematical filters like > r < as well
+	When filtering based n a date, still surrund the date in ' ' and cnventin is YYYY-MM-DD
+	WHERE pints > 3000
+	peratrs:
+	! = nt equal t
+	= equal t
+	greater than
+	= greater than r equal t
+	< less than
+	< = less than r equal t
+	<> either greater than r equal t
+	^ indicates the start f a string, s '^field' means it must start with field
+	$ indicates the end f a string, s 'field$' means it must end field
+	pipe can be used t cmbine REGEXP patterns as 'r'
+	'field$|mac|^rse'
+	AND/ R/ IN/LIKE/ BETWEEN ... AND ../REGEXP/ NULL
+	AND peratr is used t cmbine cnditin
+	WHERE <cnditin> AND <cnditin>
+	Can als use WHERE NT, and can still use arithmetic expressins in WHERE cnditins
+	If using the same type f peratr, remember that SQL peratrs are based n 'peratr' 'string' and strings cannt be cmbined with Blean lgic, s the entire peratr must be repeated fr each desired filter
+	ex: WHERE state = 'FL' R state = 'GA' R state = 'VA'
+	Can als use IN t d repeated peratr filters mre easily
+	WHERE state IN ('GA', 'FL', 'VA')
+	BETWEEN AND is an inclusive peratr, s the value set in the range will be included in the filter
+	T filter based n text fr a pattern starting with certain values:
+	WHERE last_name LIKE 'b%' - filters based n rws where last_name starts with b
+	WHERE last_name LIKE 'Brush%' - filters based n rws where last_name starts with BRUSH
+	WHERE last_name LIKE '%b%' - filters based n rws where last name cntains a b at any pint
+	WHERE last_name LIKE '%y' - filters based n rws where last name ends in y
+	WHERE last_name LIKE '_y' - the underscre represents a set number f characters (in this case nly 1 since there is 1 peratr) s this searches fr 2 character last names ending in
+	REGEXP allws yu t search fr mre cmplex patterns
+	WHERE last_name REGEXP 'field' - searches fr any rw where last_name cntains field - n need t type %
+	Can als use t search fr cmbinatins f letters
+	WHERE last_name REGEXP '[gim]e'
+	Searches fr any last_name that cntains 'ge', 'ie', r 'me'
+	reversing the rder f []e changes the pattern
+	[a-f] searches fr a range between a and f
+	NULL
+IS NULL will lcate null values
+IS NT NULL will lcate rws that d nt have null in that clumn
+WHERE clumn IS/IS NT NULL
+	RDER BY - srts results
+	RDER BY <clumn>
+	The middle glbe buttn next t a table pens up table attributes and can be edited frm there
+	Rws are srted by the Primary Key by default. Primary Key is dented in table characteristics by a yellw symbls
+	T reverse rder, use DESC
+	RDER BY <clumn> DESC
+	Multiple srt levels can be used by separating <clumn>s by a cmma
+	RDER BY <clumn>, <clumn>
+	LIMIT restricts the utput t the X number f rws specified
+	T ffset rws, use LIMIT <ffset #>, <number f rws interested>
+	ex: if want rws 7-9 but nt 1-6
+	LIMIT 6, 3
+	LIMIT clause ges at the very end
+	Inner Jins - the default jin ptin in MySQL
+	Matches each rw in a table with rws in ther tables and allws querying rws frm bth tables
+	Can type INNER JIN r just JIN
+	JIN <table nt selected in FRM that yu want t jin>
+	t line up clumns with equal values, use N
+	N <table.clumn> = <table.clumn>
+	If SELECTing a clumn that exists in bth tables, must identify which table yu want t pull it frm
+	Table aliases can be given immediately after table name in FRM r JIN
+	JIN <table> <alias>
+	Jining Acrss Databases -
+	Prefix the table t be jined with the database it cmes frm
+	JIN <database name.table name>
+	Yu nly have t prefix the tables that are nt part f the current database
+	Self Jins - Jining with itself
+	Give table aliases in bth FRM and JIN clauses fr easy cmparisn f clumns
+	FRM <table> <alias>
+	JIN <table> <alias>
+	N <alias.clumn> = <alias.clumn>
+	Jining Multiple Tables
+	Use a secnd JIN clause and duble check that the names are right
+	ther than that, just the same principles as a simple jin - identify database and tables with all used variables
+	Cmpund Jin Cnditins
+	Fr tables with n single clumn as the unique identifier, can use the values f a cmbinatin f clumns as a unique identifier
+	Cmpsite Primary Key - a Primary Key cnsisting f multiple clumns
+	JIN <table> <alias>
+	N <table> = <table>
+	AND <table> = <table>
+	Creates multiple jin cnditins
+	Implicit Jin Syntax
+	Nt advised because risks creatin f a crssjin
+	uses WHERE t implicitly jin tables
+	uter Jins
+	Nt a default setting s must type ut LEFT, RIGHT, r FULL JIN
+	Inner jins nly return rws that match the cnditins set, If rws d nt match it, they wn't be returned.
+	Left - the left table is the table yu are taking data FRM
+	Right - the right table is the table yu are JINing
+	LEFT JIN - returns all recrds frm the left table regardless f if it matches JIN cnditins, and matched recrds frm the right table
+	RIGHT JIN - returns all recrds frm the right table and the matched recrds frm the left table
+	FULL JIN - returns all recrds if they have a match in either table
+	Keep the type f JIN cnsistent fr easy readability and visualizatin
+	Best practice is t nly use LEFT JINs and just change rder f tables when needed
+	Multiple uter Jins
+	Exact same as multiple inner jins, just stack JIN clauses
+	Keep yur data in mind and if the data yu want is being filtered ut by yur JIN clause/type and if yu need t change JIN type
+	Self uter Jins
+	Jin a table t itself
+	Same prcess as Inner Self Jin, give table aliases in bth parts
+	USING
+	If the clumn names being jined are identical in the tables being jined, the N clause can be replaced with USING (<clumn>)
+	N <table.clumn> = <table.clumn> —> USING (<clumn>)
+	When yu have multiple clumns in the JIN clause, keep the clumns in the same USING clause but separate with a cmma
+	USING (<clumn>, <clumn>)
+	Natural Jins
+	D nt explicitly label the clumn names, the sftware cmpares the tables and jins based n cmmn clumn names
+	Simple and easy t cde but can be dangerus because less cntrl
+	Can prduce unexpected results
+	Crss Jins
+	Used t jin every recrd frm ne table with every recrd in anther
+	D nt need an N cnditin because it jins every recrd
+	Has bth explicit syntax (CRSS JIN) r implicit syntax in the FRM clause (FRM <table>, <table>)
+	Unins
+	Cmbines rws instead f clumns
+	effectively cmbines results frm tw SELECT queries int the same result table
+	SELECT clause
+	UNIN
+	SELECT clause
+	The number f clumns selected in each SELECT clause must be identical
+

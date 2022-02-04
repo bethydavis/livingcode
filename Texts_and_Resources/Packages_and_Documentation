@@ -1,0 +1,33 @@
+Packages and Documentation
+
+This is not an exhaustive list of available packages, but a reference source for
+packages that commonly need some extra practice or assistance, particularly for new users
+as well as packages that I use highly often and/or that are very useful and should always
+be remembered (*).
+
+-------------------
+RStudio
+-------------------
+Refer to CRAN for package issues and most documentation (accessible in RStudio with ?<packagename>)
+
+primerTree
+  Documentation: https://www.rdocumentation.org/packages/primerTree/versions/1.0.5
+
+primerMiner
+  Paper: https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.12687
+  Description:
+    batch downloads DNA barcode gene sequences from BOLD and NCBI data bases, applies
+    sequence clustering into operational taxonomic units (OTUs) to reduce biases,
+    offers functionalities to evaluate primers in silico
+
+## High Frequency RPackages
+
+-------------------
+Python
+-------------------
+
+
+
+## High Frequency Python Packages
+matplotlib
+pandas
